@@ -13,8 +13,10 @@ typedef unsigned long Timer;
 #define RIGHT  2
 
 // Pin defines
-#define PinButton1  9
+#define PinButton1  12
 #define PinButton2  10
+
+#define PinVolume 14
 
 #define PinSwitch1_1  11
 #define PinSwitch1_2  11
