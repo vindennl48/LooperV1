@@ -1,11 +1,15 @@
 #ifndef BTN_H
 #define BTN_H
 
+/* This library handles the dirty work of debouncing and getting the current
+ * button state */
 #include <Bounce2.h>
 
-#define INTERVAL       25  //ms
-#define LONGPRESS_TIME 500 //ms
+#define INTERVAL       25  //ms of debounce time
+#define LONGPRESS_TIME 500 //ms of long-press activation
 
+/* The states that say 'used' have ran thru a complete clock cycle.  We do not
+ * want double triggers so they only stay active for 1 cycle. */
 #define STATE_NEUTRAL   0
 #define STATE_DOWN      1
 #define STATE_DOWN_USED 2
@@ -34,15 +38,21 @@ struct BTN {
     else if ( state == STATE_LONG ) state = STATE_LONG_USED;
 
     if ( b.fell() ) {
+      // Button was pressed
       state = STATE_DOWN; 
     }
     else if ( b.rose() ) {
+      /* Button was depressed.  If the button was held past the longpress_time,
+       * then reset the button to neutral. We do not want to trigger an 'up'
+       * event.  If the button was not held past the longpress_time, trigger an
+       * 'up' event. */
       if ( state == STATE_LONG || state == STATE_LONG_USED ) state = STATE_NEUTRAL;
       else state = STATE_UP;
     }
 
     if ( (state == STATE_DOWN || state == STATE_DOWN_USED) &&
         b.currentDuration() > LONGPRESS_TIME )
+      // if button was held down past the longpress_time
       state = STATE_LONG;
   }
 

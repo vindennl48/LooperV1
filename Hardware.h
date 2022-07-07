@@ -1,3 +1,6 @@
+/* I believe this library is fairly self-explanatory. Used to keep all of the
+ * hardware peripherals in one location */
+
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
