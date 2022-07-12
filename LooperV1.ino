@@ -2,45 +2,75 @@
  * runs void loop() at the given CPU clock speed.
  */
 
+#include "TimerOne.h"
 #include "Hardware.h"
+#include "Ring.h"
+#include "Nav.h"
 
-Timer timer;
+Nav n;
 
-/* Used to setup hardware peripherals and default parameters */
+Timer    timer, timer2;
+Ring     ring;
+int max_size       = 0;
+int temp_size      = 0;
+int max_final_size = 0;
+
+#define MAX_SAMP 22050
+int wav[MAX_SAMP] = {0};
+int count         = 0;
+
 void setup() {
-  /*pinMode(13, OUTPUT);*/
-  /*pinMode(12, INPUT_PULLUP);*/
-
   HW::setup();
   HW::setup_serial(SERIAL_USB);
+
+  Timer1.initialize(22);
+  Timer1.attachInterrupt(isr);
 }
 
-bool init = false;  // testing values
-
-/* This is the main loop of the program.  Everything that runs lives inside of
- * this loop. */
 void loop() {
-  /*  This runs all of the buttons/knobs/switches loop programs.  Just an easier
-   *  way of keeping things tidy. */
   HW::loop();
 
-  // Test code to make sure the Pot library works
-  if ( !init ) {
-    HW::pot_volume.set_value(100);
+  switch ( n.e() ) {
+    case 0:
+      if ( n.not_init() ) {
+        timer = millis();
+      } else {
 
-    timer = millis();
+        if ( !ring.is_empty() ) {
+          wav[count] = ring.get();
+          count++;
+        }
 
-    init = true;
-  } else {
+        if ( count >= MAX_SAMP ) n.jump_to(1);
+      }
+      break;
 
-    if ( timer + 250 < millis() ) {
-      Serial.print("val is: ");
-      Serial.println( HW::pot_volume.get_value() );
-      timer = millis();
-    }
+    case 1:
+      if ( n.not_init() ) {
+        timer2 = millis() - timer;
+        max_final_size = max_size;
 
-  }
+        for ( int i=0; i<MAX_SAMP; i++ ) {
+          Serial.print(i);
+          Serial.print(": ");
+          Serial.println(wav[i]);
+        }
 
-  // Test code to make sure the BTN library works
-  /*if ( HW::btn_left.isLongPressed() ) HW::board_led(TOGGLE);*/
+        Serial.println("--------------------");
+        Serial.print(timer2);
+        Serial.println("MS");
+        Serial.println("--------------------");
+        Serial.print(max_final_size);
+        Serial.println(" = Max Buff Size");
+      } else { }
+      break;
+  };
+}
+
+void isr() {
+  ring.insert( analogRead(PinInput) );
+
+  // find largest size buffer
+  temp_size = ring.size();
+  max_size  = temp_size > max_size ? temp_size : max_size;
 }

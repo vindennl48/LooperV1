@@ -18,6 +18,7 @@ typedef unsigned long Timer;
 #define PinButton2    10
 
 #define PinVolume     14  // Analog pin for potentiometer
+#define PinInput      15  // Analog pin for guitar input
 
 #define PinSwitch1_1  11
 #define PinSwitch1_2  11
