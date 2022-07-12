@@ -46,12 +46,12 @@ struct Pot {
 
   }
 
-  void set_value(uint8_t x) {
+  void set(uint8_t x) {
     val    = SET_MAX_VALUE(x);
     is_set = true;
   }
 
-  uint16_t get_value() {
+  uint16_t get() {
     return GET_MAX_VALUE(val);
   }
 };
