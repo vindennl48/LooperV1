@@ -5,7 +5,7 @@
 #define HARDWARE_H
 
 #include "BTN.h"
-#include "Pot.h"
+//#include "Pot.h"
 #include "Definitions.h"
 
 #define SERIAL_USB  0
@@ -14,7 +14,7 @@
 struct HW {
   static BTN btn_left;
   static BTN btn_right;
-  static Pot pot_volume;
+  //static Pot pot_volume;
   //static Switch3Way sw3_volume, sw3_layers, sw3_stop sw3_record;
 
   static void setup() {
@@ -24,7 +24,7 @@ struct HW {
     HW::btn_left.setup(PinButton1, true);
     HW::btn_right.setup(PinButton2, true);
 
-    HW::pot_volume.setup(PinVolume);
+    //HW::pot_volume.setup(PinVolume);
 
     //sw3_volume.setup(PinSwitch1_1, PinSwitch1_2);
     //sw3_layers.setup(PinSwitch2_1, PinSwitch2_2);
@@ -41,7 +41,7 @@ struct HW {
     btn_left.loop();
     btn_right.loop();
 
-    pot_volume.loop();
+    //pot_volume.loop();
 
     //sw3_volume.loop();
     //sw3_layers.loop();

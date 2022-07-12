@@ -2,4 +2,4 @@
 
 BTN HW::btn_left;
 BTN HW::btn_right;
-Pot HW::pot_volume;
+//Pot HW::pot_volume;
