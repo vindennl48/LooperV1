@@ -43,8 +43,27 @@ typedef struct ADC {
   union {
     volatile uint32_t data;
     struct {
-      // input channel select for ADC. This will be the ADC_INx number and not
-      // the hardware pin number.
+      /* input channel select for ADC. Make sure to use 'Channel' column below
+       * List of avaliable channels:
+       * Hardware Pin | Analog Pin |  ADC  | Channel
+       *      14      |      0     |   1   |    7   
+       *      15      |      1     |   1   |    8   
+       *      16      |      2     |   1   |    12  
+       *      17      |      3     |   1   |    11  
+       *      18      |      4     |   1   |    6   
+       *      19      |      5     |   1   |    5   
+       *      20      |      6     |   1   |    15  
+       *      21      |      7     |1 and 2|    0   
+       *      22      |      8     |   1   |    13  
+       *      23      |      9     |   1   |    14  
+       *      24      |      10    |   1   |    1   
+       *      25      |      11    |   1   |    2   
+       *      26      |      12    |   2   |    3   
+       *      27      |      13    |   2   |    4   
+       *      38      |      14    |   2   |    1   
+       *      39      |      15    |   2   |    2   
+       *      40      |      16    |   1   |    9   
+       *      41      |      17    |   1   |    10  */
       volatile unsigned channel:5;
 
       volatile unsigned adc_hc_reserved:2;
