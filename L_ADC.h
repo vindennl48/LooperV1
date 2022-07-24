@@ -41,7 +41,7 @@
 typedef struct ADC {
   /* ADCx_HCn */
   union {
-    volatile uint32_t data;
+    volatile uint32_t adc_set;
     struct {
       /* input channel select for ADC. Make sure to use 'Channel' column below
        * List of avaliable channels:
@@ -104,7 +104,7 @@ typedef struct ADC {
 
   /* ADCx_Rn */
   union {
-    volatile uint32_t data;
+    volatile uint32_t adc_read;
     struct {
       // READONLY, result from the ADC after conversion
       volatile unsigned result:12;
