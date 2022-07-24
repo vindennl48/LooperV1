@@ -5,29 +5,29 @@
 #define ROTATE(x) if(x+1==BUFF_SIZE) {x = 0;} else {x++;}
 
 struct Ring {
-  int buff[BUFF_SIZE] = {0};
-  int  head           = 0;
-  int  tail           = 0;
+  uint32_t buff[BUFF_SIZE] = {0};
+  uint16_t head            = 0;
+  uint16_t tail            = 0;
 
-  void insert(int data) {
+  void insert(uint32_t data) {
     buff[head] = data;
     ROTATE(head);
 
-    if ( head == tail ) { ROTATE(tail); }
+    if ( head == tail ) ROTATE(tail);
   }
 
   uint8_t is_empty() { return head == tail ? true : false; }
 
-  int get() {
+  uint32_t get() {
     if ( head == tail ) return 0; // CHECK IF EMPTY FIRST!!
 
-    int result = buff[tail];
+    uint32_t result = buff[tail];
     ROTATE(tail);
 
     return result;
   }
 
-  int size() {
+  uint16_t size() {
     if ( head >= tail ) return head - tail;
     else return (head + (BUFF_SIZE - tail));
   }
