@@ -1,39 +1,46 @@
+/*******************************************************************************
+* This provides a Ring Buffer or Circular Buffer with interrupt protection.     
+* Mainly used for audio buffer transfers.                                       
+*******************************************************************************/
+
 #ifndef RING_H
 #define RING_H
 
-#define BUFF_SIZE 128   // 0 - 127
-#define ROTATE(x) if(x+1==BUFF_SIZE) {x = 0;} else {x++;}
+#define ROTATE(x,sz)    if(x+1==sz) {x = 0;} else {x++;}
+#define ROTATE_IF(x,sz) (x+1==sz ? 0 : x+1)
 
+template <typename T>
 struct Ring {
-  uint32_t buff[BUFF_SIZE] = {0};
-  uint16_t head            = 0;
-  uint16_t tail            = 0;
+  T *buff_t;
+  uint16_t size, head, tail;
 
-  void insert(uint32_t data) {
-    buff[head] = data;
-    ROTATE(head);
+  Ring(uint16_t size) {
+    this->size = size;
+    buff_t = new T [size];
+    head = tail = 0;
+  }
+  ~Ring() { for (int i=0; i<size; i++) delete &buff_t[i]; }
 
-    if ( head == tail ) ROTATE(tail);
+  void insert(T *item) { insert(*item); }
+  void insert(T item) {
+    __disable_irq();
+    buff_t[head] = item;
+    ROTATE(head, size);
+    if ( head == tail ) { ROTATE(tail, size); }
+    __enable_irq();
   }
 
-  uint8_t is_empty() { return head == tail ? true : false; }
-
-  uint32_t get() {
-    if ( head == tail ) return 0; // CHECK IF EMPTY FIRST!!
-
-    uint32_t result = buff[tail];
-    ROTATE(tail);
-
-    return result;
+  T pop() {
+    __disable_irq();
+    if ( head == tail ) { return buff_t[0]; }
+    uint16_t result_tail = tail;
+    ROTATE(tail, size);
+    return buff_t[result_tail];
+    __enable_irq();
   }
 
-  uint16_t size() {
-    if ( head >= tail ) return head - tail;
-    else return (head + (BUFF_SIZE - tail));
-  }
+  bool is_empty() { return head == tail ? true : false; }
+  bool is_full()  { return ROTATE_IF(head, size) == tail ? true : false; }
 };
-
-//#undef BUFF_SIZE
-//#undef ROTATE
 
 #endif
