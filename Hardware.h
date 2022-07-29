@@ -4,32 +4,45 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
-#include "BTN.h"
-//#include "Pot.h"
+#include "BALibrary.h"
 #include "Definitions.h"
+#include "BTN.h"
 
 #define SERIAL_USB  0
 #define SERIAL_MIDI 1
 
+using namespace BALibrary;
+
 struct HW {
+  static BAAudioControlWM8731 codecControl;
+
   static BTN btn_left;
   static BTN btn_right;
-  //static Pot pot_volume;
-  //static Switch3Way sw3_volume, sw3_layers, sw3_stop sw3_record;
 
   static void setup() {
-    pinMode(PinLEDBoard, OUTPUT);
-    board_led(OFF);
-    
-    HW::btn_left.setup(PinButton1, true);
-    HW::btn_right.setup(PinButton2, true);
+    /* ::Setup the dev-board:: */
+    // Declare the version of the TGA Pro you are using.
+    TGA_PRO_MKII_REV1();
 
-    //HW::pot_volume.setup(PinVolume);
+    delay(5); // wait a few ms to make sure the TGA Pro is fully powered up
+    /* Provide an arbitrarily large number of audio buffers (48 blocks) for
+     * the effects (delays use a lot more than others) */
+    AudioMemory(48);
 
-    //sw3_volume.setup(PinSwitch1_1, PinSwitch1_2);
-    //sw3_layers.setup(PinSwitch2_1, PinSwitch2_2);
-      //sw3_stop.setup(PinSwitch3_1, PinSwitch3_2);
-    //sw3_record.setup(PinSwitch4_1, PinSwitch4_2);
+    // If the codec was already powered up (due to reboot) power it down first
+    codecControl.disable();
+    delay(100);
+    codecControl.enable();
+    delay(100);
+
+    pinMode(BA_EXPAND_LED1_PIN, OUTPUT); led1(OFF);
+    pinMode(BA_EXPAND_LED2_PIN, OUTPUT); led2(OFF);
+
+
+    /* ::Setup hardware:: */
+    pinMode(PinLEDBoard, OUTPUT); board_led(OFF);
+    btn_left.setup(BA_EXPAND_SW1_PIN, false);
+    btn_right.setup(BA_EXPAND_SW2_PIN, false);
   }
 
   static void setup_serial(uint8_t type) {
@@ -40,18 +53,21 @@ struct HW {
   static void loop() {
     btn_left.loop();
     btn_right.loop();
-
-    //pot_volume.loop();
-
-    //sw3_volume.loop();
-    //sw3_layers.loop();
-    //sw3_stop.loop();
-    //sw3_record.loop();
   }
 
   static void board_led(uint8_t state) {
     if ( state == TOGGLE ) digitalWrite(PinLEDBoard, !digitalRead(PinLEDBoard));
     else digitalWrite(PinLEDBoard, state);
+  }
+
+  static void led1(uint8_t state) {
+    if ( state == TOGGLE ) digitalWrite(BA_EXPAND_LED1_PIN, !digitalRead(BA_EXPAND_LED1_PIN));
+    else digitalWrite(BA_EXPAND_LED1_PIN, state);
+  }
+
+  static void led2(uint8_t state) {
+    if ( state == TOGGLE ) digitalWrite(BA_EXPAND_LED2_PIN, !digitalRead(BA_EXPAND_LED2_PIN));
+    else digitalWrite(BA_EXPAND_LED2_PIN, state);
   }
 };
 

@@ -56,9 +56,9 @@ struct BTN {
       state = STATE_LONG;
   }
 
-  uint8_t isPressed()     { return state == STATE_DOWN ? true : false; }
-  uint8_t isReleased()    { return state == STATE_UP   ? true : false; }
-  uint8_t isLongPressed() { return state == STATE_LONG ? true : false; }
+  uint8_t is_pressed()      { return state == STATE_DOWN ? true : false; }
+  uint8_t is_released()     { return state == STATE_UP   ? true : false; }
+  uint8_t is_long_pressed() { return state == STATE_LONG ? true : false; }
 };
 
 #undef INTERVAL
