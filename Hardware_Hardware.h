@@ -4,10 +4,6 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
-#include "BALibrary.h"
-#include "Definitions.h"
-#include "BTN.h"
-
 #define SERIAL_USB  0
 #define SERIAL_MIDI 1
 

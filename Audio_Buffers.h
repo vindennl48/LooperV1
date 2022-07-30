@@ -1,9 +1,6 @@
 #ifndef BUFFERS_H
 #define BUFFERS_H
 
-#include "Audio.h"
-#include "Ring.h"
-
 #define AUDIO_BUFF_SIZE 24
 
 struct Buffers {

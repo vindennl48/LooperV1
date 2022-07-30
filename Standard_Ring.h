@@ -6,8 +6,6 @@
 #ifndef RING_H
 #define RING_H
 
-#include <Arduino.h>
-
 #define ROTATE(x,sz)    if(x+1==sz) {x = 0;} else {x+=1;}
 #define ROTATE_IF(x,sz) (x+1==sz ? 0 : x+1)
 
@@ -76,20 +74,4 @@ private:
   void enable_irq()  { if ( is_atomic ) __enable_irq() }
 };
 
-#endif
-
-
-
-#ifdef RING_H_TEST
-#include "Hardware.h"
-
-void setup() {
-  HW::setup();
-  HW::setup_serial(SERIAL_USB);
-}
-void loop() {
-  HW::loop();
-
-  Serial.println("RING_TEST");
-}
 #endif

@@ -1,8 +1,6 @@
 #ifdef ALT_PROGRAM
 #ifdef MAIN_TEMP_H
 
-#include "Hardware.h"
-
 void setup() {
   HW::setup();
   HW::setup_serial(SERIAL_USB);

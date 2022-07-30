@@ -1,7 +1,6 @@
 #ifndef POT_H
 #define POT_H
 
-
 /* The actual max value from an analog input is 1024, however, if we want to use
  * a different max value, say 126, we need to do 126/1024 to get the conversion
  * factor.  This also allows a bit of debounce when reducing the resolution like

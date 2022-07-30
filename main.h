@@ -1,15 +1,5 @@
 #ifndef ALT_PROGRAM
 
-#include <Audio.h>
-#include "BALibrary.h"
-#include "Hardware.h"
-#include "Buffers.h"
-#include "Nav.h"
-#include "MyBlocks.h"
-#include "SdFat.h"
-
-using namespace BALibrary;
-
 AudioInputI2S        i2sIn;
 AudioOutputI2S       i2sOut;
 InputBlock           input_b;

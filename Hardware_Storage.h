@@ -3,10 +3,6 @@
 #ifndef STORAGE_H
 #define STORAGE_H
 
-#include "SdFat.h"
-#include "Buffers.h"
-#include "Nav.h"
-
 #define SPI_CLOCK SD_SCK_MHZ(50)
 
 // Try to select the best SD card configuration.

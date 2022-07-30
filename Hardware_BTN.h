@@ -1,10 +1,6 @@
 #ifndef BTN_H
 #define BTN_H
 
-/* This library handles the dirty work of debouncing and getting the current
- * button state */
-#include <Bounce2.h>
-
 #define INTERVAL       25  //ms of debounce time
 #define LONGPRESS_TIME 500 //ms of long-press activation
 

@@ -1,10 +1,6 @@
 #ifndef MY_BLOCKS_H
 #define MY_BLOCKS_H
 
-#include <Arduino.h>
-#include "AudioStream.h"
-#include "Buffers.h"
-
 class InputBlock : public AudioStream
 {
 public:
@@ -22,8 +18,9 @@ public:
     Buffers::input_l.insert(block_l);
     Buffers::input_r.insert(block_r);
 
-    release(block_l);
-    release(block_r);
+    // Not sure if release now or on output
+    //release(block_l);
+    //release(block_r);
 
     return;
   }
