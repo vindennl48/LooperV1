@@ -1,0 +1,4 @@
+#include "Buffers.h"
+
+Ring<audio_block_t*> Buffers::input_l(AUDIO_BUFF_SIZE);
+Ring<audio_block_t*> Buffers::input_r(AUDIO_BUFF_SIZE);
