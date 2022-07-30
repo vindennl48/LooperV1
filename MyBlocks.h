@@ -44,9 +44,9 @@ public:
     audio_block_t *block_l;
     audio_block_t *block_r;
 
-    if ( !Buffers::input_l.is_empty() ) {
-      block_l = Buffers::input_l.pop();
-      block_r = Buffers::input_r.pop();
+    if ( !Buffers::output_l.is_empty() ) {
+      block_l = Buffers::output_l.pop();
+      block_r = Buffers::output_r.pop();
 
       transmit(block_l, 0);
       transmit(block_r, 1);
