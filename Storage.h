@@ -1,3 +1,5 @@
+#ifdef HIDEME
+
 #ifndef STORAGE_H
 #define STORAGE_H
 
@@ -348,3 +350,5 @@ struct Storage {
 //  }
 //  
 //  #endif
+
+#endif

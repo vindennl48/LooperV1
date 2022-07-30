@@ -77,3 +77,19 @@ private:
 };
 
 #endif
+
+
+
+#ifdef RING_H_TEST
+#include "Hardware.h"
+
+void setup() {
+  HW::setup();
+  HW::setup_serial(SERIAL_USB);
+}
+void loop() {
+  HW::loop();
+
+  Serial.println("RING_TEST");
+}
+#endif
