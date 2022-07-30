@@ -1,3 +1,4 @@
+#ifdef INCLUDE_STANDARD_NAV
 #ifndef NAV_H
 #define NAV_H
 
@@ -21,4 +22,5 @@ struct Nav {
   uint8_t e() { return event; }
 };
 
+#endif
 #endif

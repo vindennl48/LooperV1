@@ -3,6 +3,7 @@
 * Mainly used for audio buffer transfers.                                       
 *******************************************************************************/
 
+#ifdef INCLUDE_STANDARD_RING
 #ifndef RING_H
 #define RING_H
 
@@ -74,4 +75,5 @@ private:
   void enable_irq()  { if ( is_atomic ) __enable_irq() }
 };
 
+#endif
 #endif

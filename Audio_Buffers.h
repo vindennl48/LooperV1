@@ -1,3 +1,4 @@
+#ifdef INCLUDE_AUDIO_BUFFERS
 #ifndef BUFFERS_H
 #define BUFFERS_H
 
@@ -11,4 +12,5 @@ struct Buffers {
   static Ring<audio_block_t*> output_r;
 };
 
+#endif
 #endif

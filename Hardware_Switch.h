@@ -1,5 +1,6 @@
 /* This library is for using 3 way toggle switches with an on/on/on pattern */
 
+#ifdef INCLUDE_HARDWARE_SWITCH
 #ifndef SWITCH_H
 #define SWITCH_H
 
@@ -42,4 +43,5 @@ struct Switch3Way {
   }
 };
 
+#endif
 #endif

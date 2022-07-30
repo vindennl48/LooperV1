@@ -1,3 +1,4 @@
+#ifdef INCLUDE_HARDWARE_L_ADC
 #ifndef L_ADC_H
 #define L_ADC_H
 
@@ -250,4 +251,5 @@ typedef struct ADC {
 #define ADC1 (*(ADC_t *)IMXRT_ADC1_ADDRESS)
 #define ADC2 (*(ADC_t *)IMXRT_ADC2_ADDRESS)
 
+#endif
 #endif

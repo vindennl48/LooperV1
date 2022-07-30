@@ -1,5 +1,4 @@
-#ifdef HIDEME
-
+#ifdef INCLUDE_HARDWARE_STORAGE
 #ifndef STORAGE_H
 #define STORAGE_H
 
@@ -67,6 +66,7 @@ struct Storage {
   }
 };
 
+#endif
 #endif
 
 
@@ -346,5 +346,3 @@ struct Storage {
 //  }
 //  
 //  #endif
-
-#endif

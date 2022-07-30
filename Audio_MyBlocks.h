@@ -1,3 +1,4 @@
+#ifdef INCLUDE_AUDIO_MYBLOCKS
 #ifndef MY_BLOCKS_H
 #define MY_BLOCKS_H
 
@@ -60,4 +61,5 @@ private:
 
 };
 
+#endif
 #endif

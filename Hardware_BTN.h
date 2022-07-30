@@ -1,3 +1,4 @@
+#ifdef INCLUDE_HARDWARE_BTN
 #ifndef BTN_H
 #define BTN_H
 
@@ -67,4 +68,5 @@ struct BTN {
 #undef STATE_LONG
 #undef STATE_LONG_USED
 
+#endif
 #endif

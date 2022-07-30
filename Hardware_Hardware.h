@@ -1,6 +1,7 @@
 /* I believe this library is fairly self-explanatory. Used to keep all of the
  * hardware peripherals in one location */
 
+#ifdef INCLUDE_HARDWARE_HARDWARE
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
@@ -67,4 +68,5 @@ struct HW {
   }
 };
 
+#endif
 #endif

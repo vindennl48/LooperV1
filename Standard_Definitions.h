@@ -2,6 +2,7 @@
  * the pedal.
  * */
 
+#ifdef INCLUDE_STANDARD_DEFINITIONS
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
@@ -45,4 +46,5 @@ typedef unsigned long Timer;
 #define PinLED2_3     21
 
 
+#endif
 #endif

@@ -1,3 +1,4 @@
+#ifdef INCLUDE_HARDWARE_POT
 #ifndef POT_H
 #define POT_H
 
@@ -61,4 +62,5 @@ struct Pot {
 #undef SET_MAX_VALUE
 #undef WINDOW
 
+#endif
 #endif
