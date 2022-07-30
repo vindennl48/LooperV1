@@ -6,7 +6,9 @@
 #ifndef RING_H
 #define RING_H
 
-#define ROTATE(x,sz)    if(x+1==sz) {x = 0;} else {x++;}
+#include <Arduino.h>
+
+#define ROTATE(x,sz)    if(x+1==sz) {x = 0;} else {x+=1;}
 #define ROTATE_IF(x,sz) (x+1==sz ? 0 : x+1)
 
 template <typename T>
@@ -17,12 +19,13 @@ struct Ring {
 
   Ring(uint16_t size) {
     this->size = size;
-    buff_t = new T [size];
-    head = tail = is_atomic = 0;
+    buff_t     = new T [size];
+    is_atomic  = true;
+    head = tail = 0;
   }
   ~Ring() { for (int i=0; i<size; i++) delete &buff_t[i]; }
 
-  void insert(T *item) { insert(*item); }
+  //void insert(T *item) { insert(*item); }
   void insert(T item) {
     disable_irq();
     buff_t[head] = item;
@@ -40,8 +43,30 @@ struct Ring {
     enable_irq();
   }
 
-  bool is_empty() { return head == tail ? true : false; }
-  bool is_full()  { return ROTATE_IF(head, size) == tail ? true : false; }
+  bool is_empty() {
+    disable_irq();
+    uint8_t result = head == tail ? true : false;
+    enable_irq();
+    return result;
+  }
+  bool is_full() {
+    disable_irq();
+    uint8_t result = ROTATE_IF(head, size) == tail ? true : false;
+    enable_irq();
+    return result;
+  }
+
+  uint16_t get_size() {
+    uint8_t result = 0;
+    disable_irq();
+    if ( head >= tail )  {
+      result = head - tail;
+    } else {
+      result = size - (tail - head);
+    }
+    enable_irq();
+    return result;
+  }
 
   // true false
   void atomic(uint8_t is_atomic) { this->is_atomic = is_atomic; }
