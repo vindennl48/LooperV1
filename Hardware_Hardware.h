@@ -41,7 +41,12 @@ struct HW {
   }
 
   static void setup_serial(uint8_t type) {
-    if      ( type == SERIAL_USB  ) Serial.begin(38400);
+    if      ( type == SERIAL_USB  ) {
+      Serial.begin(38400);
+      if ( Serial && CrashReport ) {
+        Serial.print(CrashReport);
+      }
+    }
     else if ( type == SERIAL_MIDI ) Serial.begin(31250);
   }
 

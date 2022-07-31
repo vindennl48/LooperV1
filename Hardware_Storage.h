@@ -77,7 +77,43 @@ uint8_t       Storage::rec = 0;
 
 
 
+/* Exerpt from main for testing */
+// some stuff to do with SD cards //////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+#ifdef IGNORE_ME
+  if ( n.not_init() ) {
+//    for (int i=0; i<128; i++) buff[i] = i; // write some data to buff
 
+    if ( !file.open("test2.txt", O_RDWR) ) {
+    /*if ( !file.open("test.txt", O_RDWR) ) {*/
+      Serial.println("##### Error opening file test.txt");
+    }
+    file.seek(EOF);
+
+    // buff size is number of bytes, since buff is int16_t its 2 bytes per var
+    if ( !file.write(buff, (128*2)) ) {
+      Serial.println("##### Error writing to test.txt");
+    }
+    file.sync();
+    file.rewind();
+
+    for (int i=0; i<128; i++) buff[i] = 0; // reset buffer data
+
+    for (int j=0; j<2; j++) {
+      file.read(buff, (128*2));  // need error handling for this
+      for (int i=0; i<128; i++) {
+        Serial.print(i+(128*j));
+        Serial.print(": ");
+        Serial.println(buff[i]);
+      }
+    }
+
+    file.close();
+
+    return;
+#endif
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 
 
