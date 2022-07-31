@@ -7,7 +7,7 @@
 #ifndef RING_H
 #define RING_H
 
-#define BUFF_SIZE       (AUDIO_BLOCK_SAMPLES*4)
+#define BLOCK_SIZE(n)   (AUDIO_BLOCK_SAMPLES*n)
 #define ROTATE(x,sz)    if(x+1==sz) {x = 0;} else {x+=1;}
 #define ROTATE_IF(x,sz) (x+1==sz ? 0 : x+1)
 
@@ -63,66 +63,9 @@ private:
   void enable_irq()  { if ( is_atomic ) __enable_irq(); }
 };
 
-// struct Ring {
-//   audio_block_t* buff[BUFF_SIZE];
-//   uint16_t       size      = BUFF_SIZE;
-//   uint16_t       head      = 0;
-//   uint16_t       tail      = 0;
-//   uint8_t        is_atomic = true;
-// 
-//   void insert(audio_block_t *item) {
-//     disable_irq();
-//     buff[head] = item;
-//     ROTATE(head, size);
-//     if ( head == tail ) { ROTATE(tail, size); }
-//     enable_irq();
-//   }
-// 
-//   audio_block_t* pop() {
-//     disable_irq();
-//     if ( head == tail ) { return buff[0]; }
-//     uint16_t result_tail = tail;
-//     ROTATE(tail, size);
-//     return buff[result_tail];
-//     enable_irq();
-//   }
-// 
-//   bool is_empty() {
-//     disable_irq();
-//     uint8_t result = head == tail ? true : false;
-//     enable_irq();
-//     return result;
-//   }
-//   bool is_full() {
-//     disable_irq();
-//     uint8_t result = ROTATE_IF(head, size) == tail ? true : false;
-//     enable_irq();
-//     return result;
-//   }
-// 
-//   uint16_t get_size() {
-//     uint8_t result = 0;
-//     disable_irq();
-//     if ( head >= tail )  {
-//       result = head - tail;
-//     } else {
-//       result = size - (tail - head);
-//     }
-//     enable_irq();
-//     return result;
-//   }
-// 
-//   // true false
-//   void atomic(uint8_t is_atomic) { this->is_atomic = is_atomic; }
-// 
-// private:
-//   void disable_irq() { if ( is_atomic ) __disable_irq(); }
-//   void enable_irq()  { if ( is_atomic ) __enable_irq(); }
-// };
-
 #ifdef STANDARD_RING_H_TEST
 
-Ring<BUFF_SIZE> buff_test;
+Ring<BLOCK_SIZE(12)> buff_test;
 
 void setup() {
   Serial.begin(38400);

@@ -7,8 +7,8 @@
 /*#define MAIN_TEMP_H*/
 /*#define BUFFERS_H_TEST*/
 /*#define AUDIO_ENGINE_H_TEST*/
-/*#define AUDIO_MYBLOCKS_H_TEST*/
-#define STANDARD_RING_H_TEST
+#define AUDIO_MYBLOCKS_H_TEST
+/*#define STANDARD_RING_H_TEST*/
 
 
 /* ::PULL NEEDED LIBRARIES:: */

@@ -2,6 +2,8 @@
 #ifndef AUDIO_ENGINE_H
 #define AUDIO_ENGINE_H
 
+namespace AudioEngine {
+
 AudioInputI2S  i2sIn;
 AudioOutputI2S i2sOut;
 InputBlock     input_b;
@@ -13,10 +15,9 @@ AudioConnection patch2(i2sIn,    1, input_b, 1);
 AudioConnection patch3(output_b, 0, i2sOut,  0);
 AudioConnection patch4(output_b, 1, i2sOut,  1);
 
-
-namespace AudioEngine {
-
-void setup() {}
+void setup() {
+  SP("--> Audio Engine Start");
+}
 void loop() {}
 
 };

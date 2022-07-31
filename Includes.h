@@ -19,7 +19,7 @@ using namespace BALibrary;
 #include "Standard_Ring.h"
 //#define INCLUDE_HARDWARE_L_ADC
 #include "Hardware_L_ADC.h"
-//#define INCLUDE_HARDWARE_BTN
+#define INCLUDE_HARDWARE_BTN
 #include "Hardware_BTN.h"
 //#define INCLUDE_HARDWARE_SWITCH
 #include "Hardware_Switch.h"
@@ -27,15 +27,15 @@ using namespace BALibrary;
 #include "Hardware_Pot.h"
 
 /* ::SECOND LEVEL:: */
-//#define INCLUDE_HARDWARE_HARDWARE
+#define INCLUDE_HARDWARE_HARDWARE
 #include "Hardware_Hardware.h"
 //#define INCLUDE_HARDWARE_STORAGE
 #include "Hardware_Storage.h"
 //#define INCLUDE_AUDIO_BUFFERS
 #include "Audio_Buffers.h"
-//#define INCLUDE_AUDIO_MYBLOCKS
+#define INCLUDE_AUDIO_MYBLOCKS
 #include "Audio_MyBlocks.h"
-//#define INCLUDE_AUDIO_ENGINE
+#define INCLUDE_AUDIO_ENGINE
 #include "Audio_Engine.h"
 
 #endif
