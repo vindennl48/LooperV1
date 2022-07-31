@@ -8,22 +8,13 @@ public:
 	InputBlock(void): AudioStream(2, inputQueueArray) {}
 
 	virtual void update(void) {
-    audio_block_t *block_l;
-    audio_block_t *block_r;
-
-    block_l = receiveReadOnly(0);
-    block_r = receiveReadOnly(1);
-
-    if (!block_l || !block_r) return;
-
-    Buffers::input_l.insert(block_l);
-    Buffers::input_r.insert(block_r);
-
-    // Not sure if release now or on output
-    //release(block_l);
-    //release(block_r);
-
-    return;
+    audio_block_t *block[2];
+    for (int i=0; i<2; i++) {
+      block[i] = receiveReadOnly(i);
+      if (!block[i]) return;
+      Buffers::sd_card[i].insert(block[i]);
+      Buffers::input[i].insert(block[i]);
+    }
   }
 	
 private:
@@ -39,20 +30,13 @@ public:
 	OutputBlock(void): AudioStream(2, inputQueueArray) {}
 
 	virtual void update(void) {
-    audio_block_t *block_l;
-    audio_block_t *block_r;
-
-    if ( !Buffers::output_l.is_empty() ) {
-      block_l = Buffers::output_l.pop();
-      block_r = Buffers::output_r.pop();
-
-      transmit(block_l, 0);
-      transmit(block_r, 1);
-
-      release(block_l);
-      release(block_r);
+    audio_block_t *block[2];
+    for (int i=0; i<2; i++) {
+      block[i] = Buffers::output[i].pop();
+      if (!block[i]) return;
+      transmit(block[i], i);
+      release(block[i]);
     }
-
   }
 	
 private:

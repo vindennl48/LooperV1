@@ -4,8 +4,8 @@
 * are commented out.  Also make sure your program files are included below.     
 *******************************************************************************/
 #define ALT_PROGRAM
-#define MAIN_TEMP_H
-/*#define RING_H_TEST*/
+/*#define MAIN_TEMP_H*/
+#define BUFFERS_H_TEST
 
 
 /* ::PULL NEEDED LIBRARIES:: */

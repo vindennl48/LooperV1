@@ -1,4 +1,4 @@
-#ifdef HIDEME
+#ifdef INCLUDE_HARDWARE_STORAGE
 
 #include "Includes.h"
 

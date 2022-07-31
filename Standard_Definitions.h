@@ -16,6 +16,9 @@
 // Used for detecting MS time differences
 typedef unsigned long Timer;
 
+// Global vars
+#define NUM_LAYERS 2  // max num of recordable layers
+
 // State Defines
 #define OFF    0
 #define ON     1
