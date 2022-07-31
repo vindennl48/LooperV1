@@ -8,8 +8,6 @@
 #define SERIAL_USB  0
 #define SERIAL_MIDI 1
 
-using namespace BALibrary;
-
 struct HW {
   static BAAudioControlWM8731 codecControl;
 
@@ -67,6 +65,10 @@ struct HW {
     else digitalWrite(BA_EXPAND_LED2_PIN, state);
   }
 };
+
+BAAudioControlWM8731 HW::codecControl;
+BTN                  HW::btn_left;
+BTN                  HW::btn_right;
 
 #endif
 #endif

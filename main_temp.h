@@ -7,8 +7,6 @@ void setup() {
 }
 void loop() {
   HW::loop();
-
-  Serial.println("TEMP");
 }
 
 #endif

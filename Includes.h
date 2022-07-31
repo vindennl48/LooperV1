@@ -35,5 +35,7 @@ using namespace BALibrary;
 #include "Audio_Buffers.h"
 #define INCLUDE_AUDIO_MYBLOCKS
 #include "Audio_MyBlocks.h"
+//#define INCLUDE_AUDIO_ENGINE
+#include "Audio_Engine.h"
 
 #endif

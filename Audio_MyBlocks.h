@@ -9,11 +9,11 @@ public:
 
 	virtual void update(void) {
     audio_block_t *block[2];
+    //Buffers::BlockStereo block;
     for (int i=0; i<2; i++) {
       block[i] = receiveReadOnly(i);
       if (!block[i]) return;
-      Buffers::sd_card[i].insert(block[i]);
-      Buffers::input[i].insert(block[i]);
+      Buffers::output[i].insert(block[i]);  // only as a test, remove
     }
   }
 	

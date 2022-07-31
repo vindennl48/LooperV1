@@ -10,15 +10,15 @@
 #define ROTATE(x,sz)    if(x+1==sz) {x = 0;} else {x+=1;}
 #define ROTATE_IF(x,sz) (x+1==sz ? 0 : x+1)
 
-template <typename T>
+template <typename T, uint16_t S>
 struct Ring {
   T        *buff_t;
   uint16_t size, head, tail;
   uint8_t  is_atomic;
 
-  Ring(uint16_t size) {
-    this->size = size;
-    buff_t     = new T [size];
+  Ring() {
+    this->size = S;
+    buff_t     = new T [S];
     is_atomic  = true;
     head = tail = 0;
   }
