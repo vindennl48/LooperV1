@@ -7,7 +7,8 @@
 #ifndef RING_H
 #define RING_H
 
-#define BLOCK_SIZE(n)   (AUDIO_BLOCK_SAMPLES*n)
+/* Need the +1 becuase the ring buff loses the last slot */
+#define BLOCK_SIZE(n)   ((AUDIO_BLOCK_SAMPLES*n)+1)
 #define ROTATE(x,sz)    if(x+1==sz) {x = 0;} else {x+=1;}
 #define ROTATE_IF(x,sz) (x+1==sz ? 0 : x+1)
 
@@ -19,6 +20,18 @@ struct Ring {
   uint16_t head      = 0;
   uint16_t tail      = 0;
   uint8_t  is_atomic = true;
+
+  int16_t sum = 0;
+
+  void sum_insert_start() { disable_irq(); sum = 0; }
+  void sum_insert(int16_t x) { sum = signed_add_16_and_16(sum, x); }
+  void sum_insert_end() { insert(sum); enable_irq(); }
+
+  void transfer_block(Ring *output) {
+    for (int i=0; i<AUDIO_BLOCK_SAMPLES; i++) {
+      output->insert(pop());
+    }
+  }
 
   void insert(int16_t sample) {
     buff[head] = sample;
@@ -57,7 +70,6 @@ struct Ring {
   }
 
   void set_atomic(bool is_atomic) { this->is_atomic = (uint8_t)is_atomic; }
-
 private:
   void disable_irq() { if ( is_atomic ) __disable_irq(); }
   void enable_irq()  { if ( is_atomic ) __enable_irq(); }

@@ -31,7 +31,7 @@ using namespace BALibrary;
 #include "Hardware_Hardware.h"
 //#define INCLUDE_HARDWARE_STORAGE
 #include "Hardware_Storage.h"
-//#define INCLUDE_AUDIO_BUFFERS
+#define INCLUDE_AUDIO_BUFFERS
 #include "Audio_Buffers.h"
 #define INCLUDE_AUDIO_MYBLOCKS
 #include "Audio_MyBlocks.h"
