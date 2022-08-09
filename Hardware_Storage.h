@@ -92,6 +92,10 @@ struct Storage {
     file.seek(sizeof(FileHeader)+file_headers[file_num].playhead);
   }
   static void get_block(int16_t *block) {
+    if ( !file.available() ) {
+      file.seek(sizeof(FileHeader));
+      file_headers[file_num].playhead = 0;
+    }
     file.read(block, AUDIO_BLOCK_SAMPLES*sizeof(int16_t));
     file_headers[file_num].playhead += AUDIO_BLOCK_SAMPLES*sizeof(int16_t);
   }
@@ -132,11 +136,6 @@ void setup() {
 void loop() {
   switch (n.e()) {
     case 0:
-      Storage::append_open(0);
-      Storage::file_headers[0].beats = 5;
-      Storage::append_close();
-      Storage::file_headers[0].beats = 25;
-
       n.jump_to(1);
       break;
 

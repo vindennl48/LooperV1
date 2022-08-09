@@ -7,11 +7,12 @@
 #define DEFINITIONS_H
 
 // Helper macros
-#define GET_MACRO(_1,_2,_3,NAME,...) NAME  // overload helper
-#define SP(...) GET_MACRO(__VA_ARGS__,SP3,SP2,SP1)(__VA_ARGS__) // overload helper
-#define SP1(x)     Serial.println(x)
-#define SP2(x,y)   Serial.print(x); Serial.println(y)
-#define SP3(x,y,z) Serial.print(x); Serial.print(y); Serial.println(z)
+#define GET_MACRO(_1,_2,_3,_4,NAME,...) NAME  // overload helper
+#define SP(...) GET_MACRO(__VA_ARGS__,SP4,SP3,SP2,SP1)(__VA_ARGS__) // overload helper
+#define SP1(x)       Serial.println(x)
+#define SP2(x,y)     Serial.print(x); Serial.println(y)
+#define SP3(x,y,z)   Serial.print(x); Serial.print(y); Serial.println(z)
+#define SP4(x,y,z,a) Serial.print(x); Serial.print(y); Serial.print(z); Serial.println(a)
 
 // Used for detecting MS time differences
 typedef unsigned long Timer;

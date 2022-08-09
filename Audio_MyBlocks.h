@@ -2,6 +2,9 @@
 #ifndef MY_BLOCKS_H
 #define MY_BLOCKS_H
 
+#define BUF_SIZE 64
+BiBuffer<BUF_SIZE> buf[2];
+
 class InputBlock : public AudioStream
 {
 public:
@@ -16,8 +19,11 @@ public:
         if (i==1) { release(block[0]); return; }
         else      { return; }
       }
-      Buffers::sd_card[i].insert_block(block[i]->data);
-      Buffers::input[i].insert_block(block[i]->data);
+
+      buf[i].insert(block[i]);
+
+      //Buffers::sd_card[i].insert_block(block[i]->data);
+      //Buffers::input[i].insert_block(block[i]->data);
       release(block[i]);
     }
   }
@@ -43,10 +49,9 @@ public:
         if (i==1) { release(block[0]); return; }
         else      { return; }
       }
-      if ( !Buffers::output[i].is_empty() ) {
-        Buffers::output[i].pop_block(block[i]->data);
-        transmit(block[i], i);
-      }
+
+      buf[i].pop(block[i]);
+      transmit(block[i], i);
       release(block[i]);
     }
   }
@@ -61,9 +66,11 @@ private:
 void setup() {
   HW::setup();
   HW::setup_serial(SERIAL_USB);
+  Storage::setup();
 
   SP("--> Start ALT TEST Audio_MyBlocks.h");
 }
+
 void loop() {
   HW::loop();
 }

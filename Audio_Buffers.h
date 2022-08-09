@@ -2,7 +2,7 @@
 #ifndef BUFFERS_H
 #define BUFFERS_H
 
-#define AUDIO_BUFF_SIZE 12
+#define AUDIO_BUFF_SIZE 64
 #define LOOP_SAMPLES for(int qq=0; qq<AUDIO_BLOCK_SAMPLES; qq++)
 
 typedef Ring<BLOCK_SIZE(AUDIO_BUFF_SIZE)> StdBuffer;
@@ -29,7 +29,7 @@ void loop() {
   if ( !Buffers::input[0].is_empty() ) {
     for (int i=0; i<2; i++) {
       //Buffers::input[i].transfer_block(&Buffers::output[i]);
-      LOOP_SAMPLES {
+      for(int qq=0; qq<AUDIO_BLOCK_SAMPLES; qq++) {
         Buffers::output[i].sum_insert_start();
         Buffers::output[i].sum_insert(Buffers::input[i].pop());
         for (int n=0; n<NUM_LAYERS; n++)
@@ -39,6 +39,10 @@ void loop() {
     }
   }
 }
+#endif
+
+
+#endif
 #endif
 
 
@@ -76,6 +80,3 @@ void loop() {}
 #endif
 
 #endif//ifdef IGNOREME
-
-#endif
-#endif

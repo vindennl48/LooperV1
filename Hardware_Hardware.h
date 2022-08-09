@@ -69,6 +69,9 @@ struct HW {
     if ( state == TOGGLE ) digitalWrite(BA_EXPAND_LED2_PIN, !digitalRead(BA_EXPAND_LED2_PIN));
     else digitalWrite(BA_EXPAND_LED2_PIN, state);
   }
+
+  static uint8_t led1_state() { return digitalRead(BA_EXPAND_LED1_PIN); }
+  static uint8_t led2_state() { return digitalRead(BA_EXPAND_LED2_PIN); }
 };
 
 BAAudioControlWM8731 HW::codecControl;
