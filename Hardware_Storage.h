@@ -52,7 +52,7 @@ struct Storage {
     /* Check to make sure all files are created */
     for (int n=0; n<=NUM_LAYERS; n++) {
       if ( !sd.exists(file_names[n]) ) {
-        file.open(file_names[n], O_RDWR | O_CREAT | O_TRUNC);
+        file.open(file_names[n], O_RDWR | O_CREAT /*| O_TRUNC*/);
           //file.write(&file_headers[file_num], sizeof(FileHeader));
         file.close();
       }
@@ -74,9 +74,9 @@ struct Storage {
     file.seek(EOF);
   }
 
-  static void append_add_block(int16_t *block) {
-    file.write(block, AUDIO_BLOCK_SAMPLES*sizeof(int16_t));
-    file_headers[file_num].file_size += AUDIO_BLOCK_SAMPLES*sizeof(int16_t);
+  static void append_add(int16_t *block, uint16_t size) {
+    file.write(block, size);
+    file_headers[file_num].file_size += size;
   }
 
   static void append_close() {
@@ -91,13 +91,13 @@ struct Storage {
     file.read(&file_headers[file_num], sizeof(FileHeader));
     file.seek(sizeof(FileHeader)+file_headers[file_num].playhead);
   }
-  static void get_block(int16_t *block) {
+  static void get_data(int16_t *block, uint16_t size) {
     if ( !file.available() ) {
       file.seek(sizeof(FileHeader));
       file_headers[file_num].playhead = 0;
     }
-    file.read(block, AUDIO_BLOCK_SAMPLES*sizeof(int16_t));
-    file_headers[file_num].playhead += AUDIO_BLOCK_SAMPLES*sizeof(int16_t);
+    file.read(block, size);
+    file_headers[file_num].playhead += size;
   }
   static void get_close() {
     file.seek(0);

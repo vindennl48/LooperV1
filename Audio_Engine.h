@@ -15,8 +15,11 @@ OutputBlock    output_b;
 AudioConnection patch1(i2sIn,    0, input_b, 0);
 AudioConnection patch2(i2sIn,    1, input_b, 1);
 
-AudioConnection patch3(output_b, 0, i2sOut,  0);
-AudioConnection patch4(output_b, 1, i2sOut,  1);
+AudioConnection patch3(input_b,  0, i2sOut,  0);
+AudioConnection patch4(input_b,  1, i2sOut,  1);
+
+//AudioConnection patch3(output_b, 0, i2sOut,  0);
+//AudioConnection patch4(output_b, 1, i2sOut,  1);
 
 void setup() {
   SP("--> Audio Engine Start");

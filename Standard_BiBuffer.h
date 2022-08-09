@@ -2,26 +2,22 @@
 #ifndef STANDARD_BI_BUFFER_H
 #define STANDARD_BI_BUFFER_H
 
-struct Block {
-  volatile int16_t data[AUDIO_BLOCK_SAMPLES] = {0};
-};
+#define BUFFER_SAMPLES (AUDIO_BLOCK_SAMPLES*4)
 
-template <uint16_t NUM_BLOCKS>
+template <uint16_t NUM_SAMPLES>
 struct BiBuffer {
-  Block    data[2][NUM_BLOCKS];
-  uint16_t head[2]       = {0};
-  uint8_t  insert_buffer = 0;
-  uint8_t  is_popping    = false;
+  int16_t  data[2][NUM_SAMPLES];
+  uint16_t head[2] = {0};
+  uint8_t  ib      = 0;
 
-  void insert(audio_block_t *block_t) { insert( (Block*)block_t->data ); }
-  void insert(int16_t *block) { insert( (Block*)block ); }
-  void insert(Block *block) {
+  void insert(audio_block_t *block_t) { insert( (int16_t*)block_t->data ); }
+  void insert(int16_t *block) {
     /* If current buffer is full */
-    if ( head[insert_buffer] == NUM_BLOCKS ) {
+    if ( head[ib] == NUM_SAMPLES ) {
       /* if second buffer is empty */
-      if ( head[insert_buffer^1] == 0 ) {
+      if ( head[ib^1] == 0 ) {
         /* switch to filling second buffer */
-        insert_buffer ^= 1;
+        ib ^= 1;
       }
       else {
         /* wait for second buffer to empty */
@@ -31,34 +27,40 @@ struct BiBuffer {
     }
 
     memcpy(
-      &data[insert_buffer][head[insert_buffer]],
+      &data[ib][head[ib]],
       block,
-      sizeof(Block)
+      sizeof(int16_t)*AUDIO_BLOCK_SAMPLES
     );
 
-    head[insert_buffer] += 1;
+    head[ib] += AUDIO_BLOCK_SAMPLES;
   }
 
-  void pop(audio_block_t *block_t) { pop( (Block*)block_t->data ); }
-  void pop(int16_t *block) { pop( (Block*)block ); }
-  void pop(Block *block) {
+  void pop(audio_block_t *block_t) { pop( (int16_t*)block_t->data ); }
+  void pop(int16_t *block) {
     /* If buffer is empty, wait. */
-    if ( head[insert_buffer^1] == 0 ) { return; }
+    if ( head[ib^1] == 0 ) { return; }
 
     /* Lets grab the data from the buffer */
     memcpy(
       block,
-      &data[insert_buffer^1][NUM_BLOCKS-head[insert_buffer^1]],
-      sizeof(Block)
+      &data[ib^1][NUM_SAMPLES-head[ib^1]],
+      sizeof(int16_t)*AUDIO_BLOCK_SAMPLES
     );
 
-    head[insert_buffer^1] -= 1;
+    head[ib^1] -= AUDIO_BLOCK_SAMPLES;
   }
 
   bool is_empty() {
-    if ( head[insert_buffer^1] == 0 ) { return true; }
+    if ( head[ib^1] == 0 ) { return true; }
     return false;
   }
+
+  uint16_t max_samples() { return NUM_SAMPLES; }
+  uint16_t max_bytes()   { return NUM_SAMPLES*sizeof(int16_t); }
+
+  /* CHECK IF EMPTY FIRST! use only for sd card or big memory dumps */
+  int16_t* get_buffer() { return data[ib^1]; }
+  void clear_buffer() { head[ib^1] = 0; }
 };
 
 #ifdef STANDARD_BI_BUFFER_H_TEST
