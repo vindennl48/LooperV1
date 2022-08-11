@@ -2,42 +2,43 @@
 #ifdef MAIN_TEMP_H
 
 Nav n;
-int16_t buf1[AUDIO_BLOCK_SAMPLES] = {0};
-int16_t buf2[AUDIO_BLOCK_SAMPLES] = {0};
 
 void setup() {
   HW::setup();
   HW::setup_serial(SERIAL_USB);
-  Storage::setup();
   AudioEngine::setup();
-
   SP("--> Start ALT main_temp.h");
 }
 void loop() {
   HW::loop();
   AudioEngine::loop();
 
-  if ( digitalRead(BA_EXPAND_LED1_PIN) ) {
-    while ( !Buffers::sd_card[0].is_empty() ) {
-      Buffers::sd_card[0].pop_block(buf1);
-      Storage::append_open(0);
-      Storage::append_add_block(buf1);
-      Storage::append_close();
-    }
-  }
-  else if ( digitalRead(BA_EXPAND_LED2_PIN) ) {
-    Storage::get_open(0);
-    Storage::get_block(buf2);
-    Storage::get_close();
-    Buffers::layer[0][0].insert_block(buf2);
-  }
+  if ( HW::btn_left.is_pressed() )  HW::led1(TOGGLE);
+  if ( HW::btn_right.is_pressed() ) HW::led2(TOGGLE);
 
-  if ( HW::led2_state() == OFF && HW::btn_left.is_pressed() ) {
-    HW::led1(TOGGLE);
-  }
-  if ( HW::led1_state() == OFF && HW::btn_right.is_pressed() ) {
-    HW::led2(TOGGLE);
-  }
+  switch (n.e()) {
+    case 0:
+      if (digitalRead(BA_EXPAND_LED2_PIN)) {
+        n.jump_to(1);
+      }
+      break;
+
+    case 1:
+      if (!digitalRead(BA_EXPAND_LED2_PIN)) {
+        n.jump_to(2);
+      }
+      break;
+
+    case 2:
+      if (n.not_init()) {
+        for(int i=0; i<512; i++) {
+          Serial.print(i); Serial.print(": ");
+          SP("b1: ", testbuf1[i], " | b2: ", testbuf2[i]);
+        }
+      }
+      break;
+  };
+
 }
 
 #endif

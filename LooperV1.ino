@@ -4,10 +4,10 @@
 * are commented out.  Also make sure your program files are included below.     
 *******************************************************************************/
 #define ALT_PROGRAM
-/*#define MAIN_TEMP_H*/
+#define MAIN_TEMP_H
 /*#define BUFFERS_H_TEST*/
 /*#define AUDIO_ENGINE_H_TEST*/
-#define AUDIO_MYBLOCKS_H_TEST
+/*#define AUDIO_MYBLOCKS_H_TEST*/
 /*#define STANDARD_RING_H_TEST*/
 /*#define STANDARD_BI_BUFFER_H_TEST*/
 /*#define HARDWARE_STORAGE_H_TEST*/

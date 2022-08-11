@@ -35,6 +35,7 @@ struct HW {
 
 
     /* ::Setup hardware:: */
+    Storage::setup();
     pinMode(PinLEDBoard, OUTPUT); board_led(OFF);
     btn_left.setup(BA_EXPAND_SW1_PIN, false);
     btn_right.setup(BA_EXPAND_SW2_PIN, false);

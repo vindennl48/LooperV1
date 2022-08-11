@@ -15,16 +15,24 @@ OutputBlock    output_b;
 AudioConnection patch1(i2sIn,    0, input_b, 0);
 AudioConnection patch2(i2sIn,    1, input_b, 1);
 
-AudioConnection patch3(input_b,  0, i2sOut,  0);
-AudioConnection patch4(input_b,  1, i2sOut,  1);
+//AudioConnection patch3(input_b,  0, i2sOut,  0);
+//AudioConnection patch4(input_b,  1, i2sOut,  1);
 
-//AudioConnection patch3(output_b, 0, i2sOut,  0);
-//AudioConnection patch4(output_b, 1, i2sOut,  1);
+AudioConnection patch3(output_b, 0, i2sOut,  0);
+AudioConnection patch4(output_b, 1, i2sOut,  1);
 
 void setup() {
+  audio_temp.setup();
   SP("--> Audio Engine Start");
 }
 void loop() {
+  if ( digitalRead(BA_EXPAND_LED1_PIN) ) {
+    audio_temp.write_to_sd();
+  }
+  else if ( digitalRead(BA_EXPAND_LED2_PIN) ) {
+    audio_temp.read_from_sd();
+  }
+
 #ifdef IGNOREME
   /* Sum all data from layers and input buffer and send to output buffer */
   while ( !Buffers::input[0].is_empty() ) {
